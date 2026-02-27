@@ -1,0 +1,726 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Đại Chiến Sử Việt - Hào Khí Đông A</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- MÀN HÌNH CHÍNH -->
+    <div id="hkda-scene-wrapper">
+        <div class="hkda-layer hkda-sky"></div>
+        <div class="hkda-layer hkda-river"></div>
+        <div class="hkda-layer hkda-stakes"></div>
+
+        <div class="hkda-hero-area">
+            <div id="default-silhouette" class="hkda-hero-silhouette"></div>
+            <img id="main-hero-display" class="hero-stand-pose hidden" src="" alt="Tướng Chọn">
+            <div class="hkda-flag">Phá cường địch<br>Báo hoàng ân</div>
+        </div>
+
+        <div id="hkda-particles"></div>
+
+        <nav class="hkda-menu">
+            <h1 class="hkda-title">Hào Khí Đông A<br><small>Bạch Đằng Giang</small></h1>
+
+            <div class="hkda-btn-group">
+                <button class="hkda-btn hkda-btn-start" onmouseenter="playSfx('sword')" onclick="startGame()">XUẤT
+                    KÍCH</button>
+                <button class="hkda-btn hkda-btn-train" onmouseenter="playSfx('shout')" onclick="startTraining()">LUYỆN
+                    BINH</button>
+                <button class="hkda-btn hkda-btn-train" onclick="openGeneralCollection()">KHO TƯỚNG</button>
+                <button class="hkda-btn hkda-btn-train" onclick="openMuseum()">BẢO TÀNG</button>
+                <button class="hkda-btn hkda-btn-train" onclick="openGachaModal()">KHO BÁU</button>
+
+                <div class="hkda-btn-row">
+                    <button class="hkda-btn hkda-btn-settings hkda-btn-profile" onclick="openProfile()">👤</button>
+                    <button class="hkda-btn hkda-btn-settings" onclick="toggleSettings()">⚙</button>
+                </div>
+            </div>
+        </nav>
+
+        <div id="hkda-settings" class="hkda-settings-panel">
+            <h2>Thiết Lập</h2>
+            <br>
+            <p>Âm Nhạc: 100%</p>
+            <p>Đồ Họa: Cao</p>
+            <br>
+            <button class="hkda-btn hkda-btn-train" onclick="toggleSettings()">Đóng</button>
+        </div>
+
+        <div class="version-info">Ver 1.0 - Sử Việt Hùng Ca</div>
+        <div id="hkda-cursor"></div>
+        <audio id="sfx-sword" src="https://www.soundjay.com/mechanical/sounds/sword-schwing-high-pitched.mp3"></audio>
+    </div>
+
+    <!-- MÀN HÌNH LUYỆN BINH -->
+    <div id="screen-training" class="screen hidden">
+        <div id="quiz-stats-bar">
+            <div class="stat-box">💎 Báu vật: <span id="score-display">0</span></div>
+            <div class="stat-box">🧠 Chiến lược: <span id="strategy-display">0</span></div>
+        </div>
+
+        <div id="quiz-start-screen" class="quiz-container">
+            <h1 class="main-title-quiz">Dòng Sử Việt</h1>
+            <p class="quiz-subtitle">Chọn thời kỳ lịch sử bạn muốn chinh phục:</p>
+
+            <div class="campaign-selection">
+                <div class="campaign-card" onclick="chooseCampaign('han')">
+                    <h3>Đại Thắng Bạch Đằng</h3>
+                    <div class="timeline">Năm 938</div>
+                    <p>Ngô Quyền & Chấm dứt Bắc Thuộc</p>
+                    <button class="quiz-btn">Tham Chiến</button>
+                </div>
+
+                <div class="campaign-card" onclick="chooseCampaign('song')">
+                    <h3>Kháng Chiến Chống Tống</h3>
+                    <div class="timeline">981 & 1075</div>
+                    <p>Lê Hoàn & Lý Thường Kiệt</p>
+                    <button class="quiz-btn">Tham Chiến</button>
+                </div>
+
+                <div class="campaign-card" onclick="chooseCampaign('mongol')">
+                    <h3>Kháng Chiến Chống Nguyên</h3>
+                    <div class="timeline">1258 - 1288</div>
+                    <p>Hào Khí Đông A - Nhà Trần</p>
+                    <button class="quiz-btn">Tham Chiến</button>
+                </div>
+            </div>
+
+            <button class="btn-quit-quiz" onclick="closeTraining()">↩ Quay lại Menu</button>
+        </div>
+
+        <div id="quiz-game-screen" class="quiz-container hidden">
+            <div class="game-header">
+                <span id="round-name" class="round-title">Vòng 1</span>
+                <span id="question-count">Câu 1/10</span>
+            </div>
+            <h2 id="question-text">Câu hỏi sẽ hiện ở đây...</h2>
+            <div id="answer-buttons" class="answer-grid"></div>
+            <div id="feedback-msg" class="feedback-message"></div>
+            <button class="btn-quit-quiz" onclick="backToCampaignSelect()">🏳️ Rút lui</button>
+        </div>
+
+        <div id="quiz-end-screen" class="quiz-container hidden">
+            <h1 class="main-title-quiz">KẾT THÚC CHIẾN DỊCH</h1>
+            <div class="treasure-chest">
+                <h2 id="final-result-text" class="result-text"></h2>
+            </div>
+            <div class="quiz-end-actions">
+                <button class="quiz-btn" onclick="backToCampaignSelect()">Chọn Chiến Dịch Khác</button>
+                <button class="btn-quit-quiz btn-quit-inline" onclick="closeTraining()">Về Menu Chính</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH CHỌN PHE -->
+    <div id="screen-selection" class="screen hidden">
+        <h1 class="title">CHỌN PHE THAM CHIẾN</h1>
+        <div class="heroes-container">
+            <div class="hero-card" onclick="selectHero('VIETNAM')">
+                <img src="hinh/thd.png" alt="Trần Hưng Đạo">
+                <h2>Đại Việt</h2>
+                <div class="hero-desc">
+                    <p><strong>Tướng:</strong> Hưng Đạo Vương</p>
+                    <p class="skill-info">🔥 <strong>Tuyệt Chiêu:</strong> Hịch Tướng Sĩ<br>(Tăng tốc độ toàn quân)</p>
+                </div>
+                <div class="btn-select">Chọn Phe Này</div>
+            </div>
+            <div class="hero-card" onclick="selectHero('INVADER')">
+                <img src="hinh/omn.png" alt="Ô Mã Nhi">
+                <h2>Nguyên Mông</h2>
+                <div class="hero-desc">
+                    <p><strong>Tướng:</strong> Ô Mã Nhi</p>
+                    <p class="skill-info">🛡️ <strong>Tuyệt Chiêu:</strong> Vạn Kỵ Xung Trận<br>(Kỵ binh bất tử 5s)</p>
+                </div>
+                <div class="btn-select btn-select-enemy">Chọn Phe Này</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH THÔNG TIN TƯỚNG -->
+    <div id="screen-bio" class="screen hidden">
+        <div class="bio-box">
+            <img id="bio-img" src="" alt="Tướng">
+            <div class="bio-text">
+                <h2 id="bio-name">Tên Tướng</h2>
+                <p id="bio-story">...</p>
+                <div class="bio-actions">
+                    <button class="btn-back" onclick="backToSelection()">Quay Lại</button>
+                    <button class="btn-confirm-hero" onclick="confirmHeroSelection()">XUẤT BINH</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH CHIẾN TRƯỜNG -->
+    <div id="screen-map" class="screen hidden">
+        <div id="top-intro-bar" class="hidden">⚔️ ĐÃ XÂY THÀNH CÔNG - CLICK VÀO ĐỊCH ĐỂ TẤN CÔNG ⚔️</div>
+        <div id="ui-hud">
+            <span>🥩 Lúa: <b id="res-food">1000</b></span>
+            <span>💰 Vàng: <b id="res-gold">500</b></span>
+            <span>⚔️ Quân: <b id="res-army">0</b></span>
+            <div class="hud-btn" onclick="openProfile()">
+                <img src="hinh/thd.png" id="hud-avatar-img" alt="Avatar">
+            </div>
+        </div>
+
+        <div id="minimap-container">
+            <img src="hinh/bandol.svg" id="minimap-img" alt="Minimap">
+            <div id="minimap-viewport"></div>
+            <div id="minimap-base" class="hidden"></div>
+        </div>
+
+        <div id="notification">Hãy chọn vị trí đóng quân!</div>
+
+        <div class="map-container" id="map-container">
+            <img src="hinh/bandol.svg" id="game-map" alt="Bản đồ" draggable="false">
+            <div id="map-overlay"></div>
+            <div id="stronghold-area"></div>
+        </div>
+
+        <div id="btn-enter-base" class="action-btn hidden" onclick="enterLogistics()" title="Vào Hậu Cần">
+            <img src="hinh/haucan.png" alt="Thành Trì">
+            <span>HẬU CẦN</span>
+        </div>
+
+        <div id="btn-sabotage" class="action-btn hidden" onclick="openSabotageModal()" title="Đi Quậy">
+            <span class="action-icon">😈</span>
+            <span>ĐI QUẬY</span>
+        </div>
+
+        <div id="skill-container" class="hidden" onclick="activateGeneralSkill()">
+            <div id="skill-cooldown-overlay"></div>
+            <img id="skill-icon" src="hinh/thd.png" alt="Skill">
+            <span id="skill-key">SKILL (60s)</span>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH HẬU CẦN -->
+    <div id="screen-logistics" class="screen hidden">
+        <div class="top-right-box" onclick="exitLogistics()">QUAY LẠI CHIẾN TRƯỜNG ➜</div>
+        <h1 class="logistics-title">KHU VỰC HẬU CẦN</h1>
+
+        <div class="logistics-container">
+            <div class="logistics-card">
+                <h3>🌾 ĐỒN ĐIỀN</h3>
+                <p>Nông dân: <b id="log-peasant">0</b></p>
+                <button class="btn-upgrade" onclick="buyUnit('PEASANT')">Chiêu Mộ Dân (50 Vàng)</button>
+            </div>
+
+            <div class="logistics-card">
+                <h3>🛡️ DOANH TRẠI</h3>
+                <p>Lực lượng: <b id="log-army">0</b></p>
+                <div class="army-list">
+                    <p>Bộ binh: <span id="count-infantry">0</span></p>
+                    <p>Kỵ binh: <span id="count-cavalry">0</span></p>
+                </div>
+                <button class="btn-buy" onclick="openTrainingCamp()">VÀO TRẠI LUYỆN BINH</button>
+            </div>
+
+            <div class="logistics-card">
+                <h3>🏛️ KHOA KỸ & THƯƠNG MẠI</h3>
+                <p>Phát triển quốc gia</p>
+                <button class="btn-shop" onclick="toggleShopModal()">💰 Cửa Hàng / Đổi Lúa</button>
+                <button class="btn-upgrade" onclick="openResearchModal()">📜 Viện Nghiên Cứu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH TRẠI LUYỆN BINH -->
+    <div id="screen-training-camp" class="screen hidden">
+        <button class="btn-back-logistics" onclick="closeTrainingCamp()">
+            <span>➜</span> QUAY LẠI
+        </button>
+
+        <div class="training-header">
+            <h1 class="training-title">DOANH TRẠI</h1>
+            <p class="training-subtitle">Tuyển mộ binh sĩ - Xây dựng quân đội</p>
+        </div>
+
+        <div id="training-unit-list" class="training-grid">
+            <!-- Unit Cards will be injected here via JS -->
+        </div>
+
+        <!-- Resource Display in Training Camp -->
+        <div style="position: absolute; top: 30px; right: 30px; font-size: 1.5rem; color: #f1c40f;">
+            💰 <span id="training-gold-display">0</span>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH CHIẾN ĐẤU -->
+    <div id="screen-combat" class="screen hidden">
+        <div id="combat-center">
+            <div id="direction-indicator">
+                <div class="dir-sector" id="dir-top"></div>
+                <div class="dir-sector" id="dir-left"></div>
+                <div class="dir-sector" id="dir-right"></div>
+            </div>
+            <div id="enemy-target-hud" class="hidden">
+                <span id="enemy-name">Kẻ Địch</span>
+                <div class="enemy-hp-container">
+                    <div id="enemy-hp-bar"></div>
+                </div>
+            </div>
+            <div id="floating-text-container"></div>
+        </div>
+
+        <div id="combat-hud-topleft">
+            <img src="hinh/thd.png" id="combat-avatar" alt="Avatar">
+            <div>
+                <div id="player-hp-bar"></div>
+                <div class="hp-text">HP: 1000/1000</div>
+            </div>
+        </div>
+
+        <div id="combat-hud-bottomright">
+            <div class="weapon-status">⚔️ Độ bền: <span id="weapon-durability">100</span>/100</div>
+            <div class="skill-bar">
+                <div class="skill-slot">Q</div>
+                <div class="skill-slot">W</div>
+                <div class="skill-slot">E</div>
+                <div class="skill-slot skill-slot-ult">R</div>
+            </div>
+        </div>
+
+        <button class="btn-retreat" onclick="exitCombatMode()">RÚT LUI</button>
+    </div>
+
+    <!-- MÀN HÌNH BẢN ĐỒ CHIẾN THUẬT -->
+    <div id="screen-tactical-map" class="screen hidden">
+        <div id="tactical-map-viewport">
+            <img src="hinh/bandol.svg" id="tactical-map-img" alt="Tactical Map">
+        </div>
+        <div class="tactical-hud">BẢN ĐỒ CHIẾN THUẬT (SCROLL ĐỂ ZOOM - CLICK ĐỂ TẤN CÔNG) - PHÍM M ĐỂ ĐÓNG</div>
+    </div>
+
+    <!-- MÀN HÌNH KHO TƯỚNG -->
+    <div id="screen-collection" class="screen hidden">
+        <h1 class="title collection-title">KHO TƯỚNG LĨNH</h1>
+
+        <div class="collection-container">
+            <div class="faction-section">
+                <h2 class="faction-title faction-title-vn">ĐẠI VIỆT</h2>
+                <div class="hero-grid" id="grid-vietnam"></div>
+            </div>
+
+            <div class="faction-section">
+                <h2 class="faction-title faction-title-invader">NGUYÊN MÔNG</h2>
+                <div class="hero-grid" id="grid-invader"></div>
+            </div>
+        </div>
+
+        <button class="btn-quit-quiz" onclick="closeCollection()">↩ Quay lại Menu</button>
+    </div>
+
+    <!-- MODALS -->
+    <div id="modal-profile" class="modal hidden">
+        <div class="profile-content">
+            <button class="btn-close-modal" onclick="closeProfile()">✕</button>
+            <div class="profile-layout">
+                <div class="profile-section section-left">
+                    <div class="avatar-container" id="profile-frame">
+                        <img src="hinh/thd.png" alt="Avatar" class="profile-avatar">
+                        <div class="rank-effect"></div>
+                    </div>
+                    <h2 id="profile-name">HuynhDucNgu</h2>
+                    <h3 id="profile-title" class="rank-title">Lính Trơn</h3>
+                    <div class="merit-bar-container">
+                        <div class="merit-info">
+                            <span>Công Trạng</span>
+                            <span id="merit-text">0/100</span>
+                        </div>
+                        <div class="merit-bar-bg">
+                            <div id="merit-bar-fill" class="merit-bar-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-section section-center">
+                    <h3>Sở Trường</h3>
+                    <div class="radar-chart-container">
+                        <canvas id="radarChart" width="250" height="250"></canvas>
+                    </div>
+                    <p class="radar-caption">Biểu đồ năng lực tác chiến</p>
+                </div>
+                <div class="profile-section section-right">
+                    <div class="stats-summary">
+                        <div class="stat-item">
+                            <span class="stat-val" id="stat-winrate">50%</span>
+                            <span class="stat-label">Tỷ Lệ Thắng</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-val" id="stat-kda">3.5</span>
+                            <span class="stat-label">KDA</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-val" id="stat-matches">102</span>
+                            <span class="stat-label">Trận</span>
+                        </div>
+                    </div>
+                    <div class="main-champs">
+                        <h4>Tướng Tủ</h4>
+                        <div class="champ-list">
+                            <div class="mini-champ">
+                                <img src="hinh/thd.png" alt="Champion">
+                                <div class="mastery-badge">LV 7</div>
+                            </div>
+                            <div class="mini-champ">
+                                <img src="hinh/omn.png" alt="Champion">
+                                <div class="mastery-badge">LV 6</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="honor-section">
+                        <h4>Vinh Danh</h4>
+                        <span class="honor-value">❤ <span id="stat-honor">45</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-attack-confirm" class="modal hidden">
+        <div class="attack-confirm-box">
+            <h3>Bạn chắc muốn chọn vị trí này để tấn công?</h3>
+            <div class="attack-btn-group">
+                <button class="btn-attack-cc" onclick="confirmAttackOrder()">CC</button>
+                <button class="btn-attack-ql" onclick="cancelAttackOrder()">QL</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="shop-modal" class="modal hidden">
+        <div class="modal-shop-content">
+            <h2>KINH TẾ 11a1</h2>
+            <div class="shop-grid">
+                <div class="shop-item">
+                    <h4>BÁN LƯƠNG THỰC</h4>
+                    <p>10 Lúa ➔ 50 Vàng</p>
+                    <button class="btn-buy" onclick="tradeRiceForGold()">QUY ĐỔI</button>
+                </div>
+            </div>
+            <button class="btn-close-shop" onclick="toggleShopModal()">ĐÓNG</button>
+        </div>
+    </div>
+
+    <div id="research-modal" class="modal hidden">
+        <div class="modal-shop-content modal-research">
+            <div class="shop-grid">
+                <div class="shop-item">
+                    <h4>⚔️ QUÂN SỰ</h4>
+                    <p class="price">Cấp hiện tại: <span id="lvl-military">0</span></p>
+                    <button class="btn-upgrade" onclick="upgradeTech('MILITARY')">NÂNG CẤP (500 Vàng)</button>
+                </div>
+                <div class="shop-item">
+                    <h4>🗡️ VŨ KHÍ</h4>
+                    <p class="price">Cấp hiện tại: <span id="lvl-weapon">0</span></p>
+                    <button class="btn-upgrade" onclick="upgradeTech('WEAPON')">NÂNG CẤP (500 Vàng)</button>
+                </div>
+                <div class="shop-item">
+                    <h4>🌾 NÔNG NGHIỆP</h4>
+                    <p class="price">Cấp hiện tại: <span id="lvl-farming">0</span></p>
+                    <button class="btn-upgrade" onclick="upgradeTech('FARMING')">NÂNG CẤP (500 Vàng)</button>
+                </div>
+            </div>
+            <div class="research-stats">
+                <h4>CHỈ SỐ HIỆN TẠI:</h4>
+                <p>💪 Sức mạnh lính: +<span id="stat-military">0</span>%</p>
+                <p>⚔️ Sát thương vũ khí: +<span id="stat-weapon">0</span>%</p>
+                <p>🌾 Sản lượng lúa: +<span id="stat-farming">0</span>%</p>
+            </div>
+            <button class="btn-close-shop" onclick="closeResearchModal()">ĐÓNG</button>
+        </div>
+    </div>
+
+    <div id="sabotage-modal" class="modal hidden">
+        <div class="modal-shop-content sabotage-theme">
+            <h2 class="sabotage-title">MƯU HÈN KẾ BẨN</h2>
+            <div class="shop-grid">
+                <div class="shop-item sabotage-item">
+                    <h4>HỎA CÔNG</h4>
+                    <p class="price">200 Vàng</p>
+                    <button class="btn-sabotage" onclick="performSabotage('FIRE')">THỰC HIỆN</button>
+                </div>
+                <div class="shop-item sabotage-item">
+                    <h4>THẢ SÂU</h4>
+                    <p class="price">300 Vàng</p>
+                    <button class="btn-sabotage" onclick="performSabotage('BUG')">THỰC HIỆN</button>
+                </div>
+                <div class="shop-item sabotage-item">
+                    <h4>CẮM CỜ</h4>
+                    <p class="price">500 Vàng</p>
+                    <button class="btn-sabotage" onclick="performSabotage('TAUNT')">THỰC HIỆN</button>
+                </div>
+            </div>
+            <button class="btn-close-shop btn-close-sabotage" onclick="closeSabotageModal()">ĐỂ LẦN SAU</button>
+        </div>
+    </div>
+
+    <div id="modal-confirm" class="modal hidden">
+        <div class="modal-content">
+            <h3>Xây dựng Thành Trì tại đây?</h3>
+            <div class="modal-actions">
+                <button class="btn-ql" onclick="closeModal()">Chọn lại</button>
+                <button class="btn-cc" onclick="placeStronghold()">Chắc chắn</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-hero-detail" class="modal hidden">
+        <div class="hero-detail-content">
+            <div class="detail-left">
+                <img id="detail-img" src="" alt="Hero Image">
+            </div>
+            <div class="detail-right">
+                <h2 id="detail-name">Tên Tướng</h2>
+                <div class="stats-box">
+                    <div class="stat-row">
+                        <span>⚔️ Sức Mạnh:</span>
+                        <div class="stat-bar-bg">
+                            <div id="bar-str" class="stat-bar-fill stat-bar-str"></div>
+                        </div>
+                        <span id="val-str">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>🧠 Trí Tuệ:</span>
+                        <div class="stat-bar-bg">
+                            <div id="bar-int" class="stat-bar-fill stat-bar-int"></div>
+                        </div>
+                        <span id="val-int">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>🛡️ Lãnh Đạo:</span>
+                        <div class="stat-bar-bg">
+                            <div id="bar-lead" class="stat-bar-fill stat-bar-lead"></div>
+                        </div>
+                        <span id="val-lead">0</span>
+                    </div>
+                </div>
+                <div class="skill-section">
+                    <h3>Kỹ Năng Đặc Biệt</h3>
+                    <div class="skill-name-row">
+                        <span id="detail-skill-name">Tên Skill</span>
+                        <div class="skill-info-icon" onclick="toggleSkillDesc()">!</div>
+                    </div>
+                    <div id="skill-desc-popup" class="hidden">
+                        <p id="detail-skill-desc">Mô tả kỹ năng...</p>
+                    </div>
+                </div>
+                <button class="btn-close-shop" onclick="closeHeroDetail()">ĐÓNG</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-museum" class="modal hidden">
+        <div class="modal-content">
+            <h2 class="museum-title">BẢO TÀNG LỊCH SỬ</h2>
+            <div class="artifact-container">
+                <div class="artifact-item">
+                    <div class="artifact-icon locked" id="artifact-cocgo">🪵</div>
+                    <h3>Cọc Gỗ Bạch Đằng</h3>
+                    <p>Mảnh: <span id="frag-cocgo">0</span>/5</p>
+                    <button class="btn-craft" onclick="craftArtifact('cocgo')">Ghép (Cần 5 mảnh)</button>
+                    <div id="lore-cocgo" class="lore-text hidden">"Giang sơn bừng sáng..."</div>
+                </div>
+                <div class="artifact-item">
+                    <div class="artifact-icon locked" id="artifact-hich">📜</div>
+                    <h3>Hịch Tướng Sĩ</h3>
+                    <p>Mảnh: <span id="frag-hich">0</span>/3</p>
+                    <button class="btn-craft" onclick="craftArtifact('hich')">Ghép (Cần 3 mảnh)</button>
+                    <div id="lore-hich" class="lore-text hidden">"Ta thường tới bữa quên ăn..."</div>
+                </div>
+            </div>
+            <button class="btn-close-shop"
+                onclick="document.getElementById('modal-museum').classList.add('hidden')">ĐÓNG</button>
+        </div>
+    </div>
+
+    <div id="modal-gacha" class="modal hidden">
+        <div class="modal-content">
+            <h2 class="gacha-title">KHO BÁU HOÀNG CUNG</h2>
+            <div class="chest-animation">📦</div>
+            <p>Giá mở: <strong class="gold-text">100 Vàng</strong></p>
+            <p>Tài sản hiện có: <span id="gacha-user-gold">0</span> Vàng</p>
+            <br>
+            <button class="btn-gacha" onclick="runGacha()">MỞ RƯƠNG</button>
+            <div id="gacha-result" class="hidden">
+                <div id="reward-card" class="reward-card"></div>
+            </div>
+            <button class="btn-close-shop"
+                onclick="document.getElementById('modal-gacha').classList.add('hidden')">ĐÓNG</button>
+        </div>
+    </div>
+
+    <!-- FLOATING PANELS -->
+    <div id="btn-tho-than-container" onclick="toggleThoThanPanel()">
+        <div class="tho-than-aura"></div>
+        <div class="tho-than-icon">📜</div>
+        <div class="tho-than-label">THƠ THẦN</div>
+    </div>
+
+    <div id="panel-tho-than" class="hidden">
+        <div class="scroll-header">
+            <span class="dragon-deco">🐉</span> THIÊN THƯ KHẢI HOÀN <span class="dragon-deco">🐉</span>
+            <div class="close-x" onclick="toggleThoThanPanel()">✕</div>
+        </div>
+        <div class="scroll-body">
+            <div class="poem-item" onclick="chonBaiTho('NAM_QUOC')">
+                <div class="poem-icon">⛰️</div>
+                <div class="poem-info">
+                    <div class="poem-name">Nam Quốc Sơn Hà</div>
+                    <div class="poem-author">Lý Thường Kiệt - <span class="buff-tag">Thần Uy (Thủ)</span></div>
+                </div>
+            </div>
+            <div class="poem-item" onclick="chonBaiTho('HICH_TUONG_SI')">
+                <div class="poem-icon">🔥</div>
+                <div class="poem-info">
+                    <div class="poem-name">Hịch Tướng Sĩ</div>
+                    <div class="poem-author">Trần Quốc Tuấn - <span class="buff-tag">Sát Thát (Công)</span></div>
+                </div>
+            </div>
+            <div class="poem-item" onclick="chonBaiTho('BINH_NGO')">
+                <div class="poem-icon">🕊️</div>
+                <div class="poem-info">
+                    <div class="poem-name">Bình Ngô Đại Cáo</div>
+                    <div class="poem-author">Nguyễn Trãi - <span class="buff-tag">Đại Nghĩa (Hồi)</span></div>
+                </div>
+            </div>
+            <div class="poem-item" onclick="chonBaiTho('THUAT_HOAI')">
+                <div class="poem-icon">🐯</div>
+                <div class="poem-info">
+                    <div class="poem-name">Thuật Hoài</div>
+                    <div class="poem-author">Phạm Ngũ Lão - <span class="buff-tag">Hoành Sóc (Buff Tướng)</span></div>
+                </div>
+            </div>
+            <div class="poem-item" onclick="chonBaiTho('TUNG_GIA')">
+                <div class="poem-icon">🏰</div>
+                <div class="poem-info">
+                    <div class="poem-name">Tụng Giá Hoàn Kinh Sư</div>
+                    <div class="poem-author">Trần Quang Khải - <span class="buff-tag">Thái Bình (Tốc độ)</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SYSTEM BUTTONS -->
+    <button id="btn-binh-gioi-main" class="system-btn system-btn-military" onclick="batBangQuanSu()">
+        <span>⚔️</span>
+        <span class="system-btn-label">BINH GIỚI</span>
+    </button>
+
+    <button id="btn-nong-nghiep-main" class="system-btn system-btn-agriculture" onclick="moBangNongNghiep()">
+        <span class="system-btn-icon">🌾</span>
+        <span class="system-btn-label-small">NÔNG NGHIỆP</span>
+    </button>
+
+    <button id="btn-upgrade-main" class="system-btn system-btn-upgrade" onclick="openUpgradeUI()">
+        <span class="system-btn-icon">🛡️</span>
+        <span class="system-btn-label-small">QUÂN SỰ</span>
+    </button>
+
+    <!-- SYSTEM PANELS -->
+    <div id="panel-quan-su-overlay" class="system-overlay">
+        <div class="bang-quan-su">
+            <div class="tieu-de-bang">Hệ Thống Quân Sự</div>
+            <div class="grid-buttons">
+                <div class="btn-chuc-nang" onclick="chonTraiTuongBinh()">
+                    <span>🐘</span>
+                    <b>Tượng Binh</b>
+                </div>
+                <div class="btn-chuc-nang" onclick="chonLoRen()">
+                    <span>🔨</span>
+                    <b>Lò Rèn</b>
+                </div>
+                <div class="btn-chuc-nang" onclick="chonXuongQuanKhi()">
+                    <span>🚜</span>
+                    <b>Xưởng Khi</b>
+                </div>
+                <div class="btn-chuc-nang" onclick="chonBenThuyen()">
+                    <span>⛵</span>
+                    <b>Bến Thuyền</b>
+                </div>
+                <div class="btn-chuc-nang" onclick="chonTruongBan()">
+                    <span>🏹</span>
+                    <b>Trường Bắn</b>
+                </div>
+            </div>
+            <div id="skill-info-box">
+                <p><span class="skill-highlight">★ Nỏ Liên Châu:</span> Bắn chùm.</p>
+            </div>
+            <button class="btn-close-qs" onclick="tatBangQuanSu()">ĐÓNG</button>
+        </div>
+    </div>
+
+    <div id="panel-nong-nghiep-overlay" class="system-overlay">
+        <div class="bang-nong-nghiep">
+            <div class="tieu-de-nn">Phát Triển Kinh Tế</div>
+            <div class="nn-grid">
+                <div class="btn-nn-item" onclick="chonTrauThan()">
+                    <span class="nn-icon">🐂</span>
+                    <b>Trâu Thần</b>
+                </div>
+                <div class="btn-nn-item" onclick="chonDeDieu()">
+                    <span class="nn-icon">🧱</span>
+                    <b>Đê Điều</b>
+                </div>
+                <div class="btn-nn-item" onclick="chonSoDienTho()">
+                    <span class="nn-icon">📜</span>
+                    <b>Điền Thổ</b>
+                </div>
+                <div class="btn-nn-item" onclick="chonChoPhien()">
+                    <span class="nn-icon">⚖️</span>
+                    <b>Chợ Phiên</b>
+                </div>
+            </div>
+            <button class="btn-close-nn" onclick="dongBangNongNghiep()">ĐÓNG</button>
+        </div>
+    </div>
+
+    <div id="panel-upgrade-overlay" class="system-overlay">
+        <div class="paper-scroll-bg">
+            <button class="btn-close-upgrade" onclick="closeUpgradeUI()">✖</button>
+            <div class="progress-header">
+                <div class="progress-line"></div>
+                <div class="step-node passed">1</div>
+                <div class="step-node active">2</div>
+                <div class="step-node">3</div>
+                <div class="step-node">4</div>
+                <div class="step-node">5</div>
+            </div>
+            <div class="compare-body">
+                <div class="card-unit">
+                    <div class="card-title">HIỆN TẠI</div>
+                    <div class="unit-frame" id="frame-current">
+                        <img id="img-current" src="" alt="Lính hiện tại">
+                    </div>
+                    <div class="stats-text" id="current-stats">Loading...</div>
+                </div>
+                <div class="arrow-icon">➡</div>
+                <div class="card-unit next-level">
+                    <div class="card-title">KẾ TIẾP</div>
+                    <div class="unit-frame" id="frame-next">
+                        <img id="img-next" src="" alt="Lính kế tiếp">
+                    </div>
+                    <div class="stats-text" id="next-stats">Loading...</div>
+                </div>
+            </div>
+            <div class="footer-action">
+                <div class="cost-bar" id="resource-cost">Loading...</div>
+                <div class="btn-hold-upgrade" id="btnHold" onmousedown="startHold()" onmouseup="cancelHold()"
+                    onmouseleave="cancelHold()" ontouchstart="startHold()" ontouchend="cancelHold()">
+                    <div class="btn-progress-fill" id="btnFill"></div>
+                    <div class="btn-hold-text">GIỮ ĐỂ NÂNG CẤP</div>
+                </div>
+                <button class="btn-back-lobby" onclick="closeUpgradeUI()">↩ QUAY VỀ SẢNH</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

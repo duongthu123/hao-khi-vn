@@ -1,0 +1,352 @@
+[
+  {
+    "id": "han-001",
+    "question": "Ngô Quyền đánh bại quân Nam Hán trên sông nào?",
+    "answers": [
+      "Sông Bạch Đằng",
+      "Sông Như Nguyệt",
+      "Sông Hồng",
+      "Sông Gianh"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Năm 938, Ngô Quyền đã sử dụng chiến thuật cọc ngầm trên sông Bạch Đằng để đánh bại quân Nam Hán, chấm dứt 1000 năm Bắc thuộc và mở ra thời kỳ độc lập của dân tộc Việt Nam.",
+    "difficulty": "easy",
+    "category": "history"
+  },
+  {
+    "id": "han-002",
+    "question": "Chiến thắng Bạch Đằng năm 938 chấm dứt thời kỳ nào?",
+    "answers": [
+      "1000 năm Bắc thuộc",
+      "Thời kỳ Loạn 12 Sứ Quân",
+      "Nhà Tiền Lê",
+      "Nhà Lý"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Chiến thắng Bạch Đằng năm 938 đánh dấu sự kết thúc của 1000 năm Bắc thuộc (từ 111 TCN đến 938), mở ra kỷ nguyên độc lập lâu dài của Việt Nam.",
+    "difficulty": "easy",
+    "category": "history"
+  },
+  {
+    "id": "song-001",
+    "question": "Ai là người đọc bài thơ 'Nam Quốc Sơn Hà'?",
+    "answers": [
+      "Lý Thường Kiệt",
+      "Lý Công Uẩn",
+      "Trần Hưng Đạo",
+      "Quang Trung"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Lý Thường Kiệt là tác giả và người đọc bài thơ 'Nam Quốc Sơn Hà' - bản tuyên ngôn độc lập đầu tiên của dân tộc Việt Nam, khẳng định chủ quyền và ý chí tự chủ của người Việt.",
+    "difficulty": "easy",
+    "category": "history"
+  },
+  {
+    "id": "song-002",
+    "question": "Trận chiến trên sông Như Nguyệt diễn ra vào thời vua nào?",
+    "answers": [
+      "Lý Nhân Tông",
+      "Lý Thái Tổ",
+      "Lý Thánh Tông",
+      "Trần Nhân Tông"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Trận chiến sông Như Nguyệt (1077) diễn ra dưới thời vua Lý Nhân Tông, do Lý Thường Kiệt chỉ huy, đánh bại quân Tống xâm lược, bảo vệ biên cương phía Bắc.",
+    "difficulty": "medium",
+    "category": "history"
+  },
+  {
+    "id": "mongol-001",
+    "question": "Hội nghị Diên Hồng do vua nào tổ chức?",
+    "answers": [
+      "Trần Thánh Tông",
+      "Trần Nhân Tông",
+      "Trần Thái Tông",
+      "Trần Hưng Đạo"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Hội nghị Diên Hồng được tổ chức bởi vua Trần Thánh Tông năm 1282 để bàn kế chống quân Nguyên-Mông xâm lược lần thứ hai. Đây là biểu tượng của tinh thần dân chủ và đoàn kết toàn dân.",
+    "difficulty": "medium",
+    "category": "history"
+  },
+  {
+    "id": "mongol-002",
+    "question": "Câu nói 'Bệ hạ chém đầu thần rồi hãy hàng' là của ai?",
+    "answers": [
+      "Trần Hưng Đạo",
+      "Trần Bình Trọng",
+      "Trần Quốc Toản",
+      "Yết Kiêu"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Đây là câu nói nổi tiếng của Trần Hưng Đạo tại Hội nghị Diên Hồng, thể hiện quyết tâm chống giặc đến cùng, không chấp nhận đầu hàng dù trong hoàn cảnh nào.",
+    "difficulty": "easy",
+    "category": "history"
+  },
+  {
+    "id": "mongol-003",
+    "question": "Trận Bạch Đằng năm 1288 do ai chỉ huy?",
+    "answers": [
+      "Trần Hưng Đạo",
+      "Trần Quang Khải",
+      "Trần Nhân Tông",
+      "Trần Quốc Tuấn"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Trần Hưng Đạo (tên thật là Trần Quốc Tuấn) là người chỉ huy trận Bạch Đằng năm 1288, sử dụng chiến thuật cọc ngầm để tiêu diệt hạm đội Nguyên-Mông, kết thúc cuộc kháng chiến chống Nguyên-Mông lần thứ ba.",
+    "difficulty": "easy",
+    "category": "history"
+  },
+  {
+    "id": "strategy-001",
+    "question": "Chiến thuật cọc ngầm trên sông Bạch Đằng dựa vào yếu tố nào?",
+    "answers": [
+      "Thủy triều lên xuống",
+      "Gió mùa",
+      "Sương mù",
+      "Mưa lớn"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Chiến thuật cọc ngầm tận dụng quy luật thủy triều: cắm cọc khi nước ròng, dụ địch vào khi nước lên, rồi tấn công khi nước xuống làm thuyền địch mắc cọc.",
+    "difficulty": "medium",
+    "category": "strategy"
+  },
+  {
+    "id": "strategy-002",
+    "question": "Trong chiến thuật, đánh vào hông và sau lưng địch có lợi thế gì?",
+    "answers": [
+      "Gây sát thương cao hơn",
+      "Tiết kiệm quân lính",
+      "Tăng tốc độ di chuyển",
+      "Giảm chi phí vàng"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Đánh vào hông và sau lưng địch sẽ gây sát thương cao hơn vì đây là điểm yếu, phòng thủ kém hơn so với mặt trước. Đây là nguyên tắc cơ bản trong chiến thuật quân sự.",
+    "difficulty": "easy",
+    "category": "strategy"
+  },
+  {
+    "id": "strategy-003",
+    "question": "Loại binh nào có lợi thế khi đối đầu với cung thủ?",
+    "answers": [
+      "Kỵ binh",
+      "Bộ binh",
+      "Công thành",
+      "Thủy quân"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Kỵ binh có tốc độ cao, có thể nhanh chóng tiếp cận và tiêu diệt cung thủ trước khi họ bắn được nhiều mũi tên. Đây là mối quan hệ khắc chế cơ bản trong chiến thuật.",
+    "difficulty": "medium",
+    "category": "strategy"
+  },
+  {
+    "id": "strategy-004",
+    "question": "Tại sao cần xây dựng tháp canh trong phòng thủ?",
+    "answers": [
+      "Tăng tầm nhìn và bắn xa",
+      "Tăng sản xuất lương thực",
+      "Tăng tốc độ di chuyển quân",
+      "Giảm chi phí huấn luyện"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Tháp canh giúp tăng tầm nhìn để phát hiện địch sớm và cung cấp vị trí cao để bắn xa hơn, hiệu quả hơn trong phòng thủ căn cứ.",
+    "difficulty": "easy",
+    "category": "strategy"
+  },
+  {
+    "id": "culture-001",
+    "question": "Tinh thần 'Diên Hồng' thể hiện điều gì?",
+    "answers": [
+      "Dân chủ và đoàn kết toàn dân",
+      "Sức mạnh quân sự",
+      "Phát triển kinh tế",
+      "Ngoại giao hòa bình"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Hội nghị Diên Hồng là biểu tượng của tinh thần dân chủ, lắng nghe ý kiến nhân dân và đoàn kết toàn dân tộc trong công cuộc bảo vệ Tổ quốc.",
+    "difficulty": "easy",
+    "category": "culture"
+  },
+  {
+    "id": "culture-002",
+    "question": "Bài thơ 'Nam Quốc Sơn Hà' khẳng định điều gì?",
+    "answers": [
+      "Chủ quyền và độc lập dân tộc",
+      "Sức mạnh quân đội",
+      "Văn hóa phát triển",
+      "Kinh tế thịnh vượng"
+    ],
+    "correctAnswer": 0,
+    "explanation": "'Nam Quốc Sơn Hà' là bản tuyên ngôn độc lập đầu tiên, khẳng định chủ quyền lãnh thổ và quyền tự chủ của dân tộc Việt Nam trước các thế lực xâm lược.",
+    "difficulty": "easy",
+    "category": "culture"
+  },
+  {
+    "id": "culture-003",
+    "question": "Cọc gỗ Bạch Đằng tượng trưng cho điều gì?",
+    "answers": [
+      "Trí tuệ và sáng tạo trong chiến đấu",
+      "Sức mạnh vật chất",
+      "Sự giàu có",
+      "Quyền lực vua chúa"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Cọc gỗ Bạch Đằng là biểu tượng của trí tuệ, sự sáng tạo trong chiến đấu, cho thấy người Việt biết tận dụng địa hình, thời tiết để đánh bại kẻ thù mạnh hơn.",
+    "difficulty": "medium",
+    "category": "culture"
+  },
+  {
+    "id": "culture-004",
+    "question": "Triều đại Trần nổi tiếng với điều gì?",
+    "answers": [
+      "Ba lần đánh thắng quân Nguyên-Mông",
+      "Xây dựng kinh thành Thăng Long",
+      "Phát minh ra chữ Nôm",
+      "Mở rộng lãnh thổ về phía Nam"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Triều đại Trần (1225-1400) nổi tiếng với chiến công vĩ đại là ba lần đánh thắng đế chế Nguyên-Mông hùng mạnh (1258, 1285, 1288), bảo vệ độc lập dân tộc.",
+    "difficulty": "easy",
+    "category": "culture"
+  },
+  {
+    "id": "history-001",
+    "question": "Năm nào Ngô Quyền đánh thắng quân Nam Hán?",
+    "answers": [
+      "938",
+      "1077",
+      "1288",
+      "1789"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Năm 938 là năm Ngô Quyền đánh thắng quân Nam Hán trên sông Bạch Đằng, chấm dứt 1000 năm Bắc thuộc và lập nên nhà nước độc lập.",
+    "difficulty": "easy",
+    "category": "history"
+  },
+  {
+    "id": "history-002",
+    "question": "Cuộc kháng chiến chống Nguyên-Mông lần thứ ba kết thúc năm nào?",
+    "answers": [
+      "1288",
+      "1258",
+      "1285",
+      "1300"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Năm 1288, trận Bạch Đằng do Trần Hưng Đạo chỉ huy đã kết thúc cuộc kháng chiến chống Nguyên-Mông lần thứ ba với thắng lợi vẻ vang.",
+    "difficulty": "medium",
+    "category": "history"
+  },
+  {
+    "id": "history-003",
+    "question": "Ai là người sáng lập nhà Lý?",
+    "answers": [
+      "Lý Công Uẩn",
+      "Lý Thường Kiệt",
+      "Lý Nhân Tông",
+      "Lý Thánh Tông"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Lý Công Uẩn (Lý Thái Tổ) là người sáng lập nhà Lý năm 1009, dời đô về Thăng Long và mở ra thời kỳ phát triển rực rỡ của đất nước.",
+    "difficulty": "medium",
+    "category": "history"
+  },
+  {
+    "id": "strategy-005",
+    "question": "Trong trận địa, vị trí nào quan trọng nhất cần bảo vệ?",
+    "answers": [
+      "Pháo đài trung tâm",
+      "Trại lính",
+      "Kho lương thực",
+      "Cổng thành"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Pháo đài trung tâm là trái tim của căn cứ, nếu mất pháo đài thì trận chiến sẽ kết thúc. Đây là mục tiêu quan trọng nhất cần bảo vệ.",
+    "difficulty": "easy",
+    "category": "strategy"
+  },
+  {
+    "id": "strategy-006",
+    "question": "Khi nào nên sử dụng chiến thuật du kích?",
+    "answers": [
+      "Khi địch mạnh hơn về số lượng",
+      "Khi có nhiều quân hơn địch",
+      "Khi có nhiều vàng",
+      "Khi thời tiết đẹp"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Chiến thuật du kích phù hợp khi ta yếu hơn địch về số lượng, cần tránh đánh chính diện và tấn công vào điểm yếu của địch.",
+    "difficulty": "medium",
+    "category": "strategy"
+  },
+  {
+    "id": "history-004",
+    "question": "Trần Quốc Tuấn được phong tước gì sau chiến thắng năm 1288?",
+    "answers": [
+      "Hưng Đạo Vương",
+      "Chiêu Văn Vương",
+      "Nhân Huệ Vương",
+      "Tuyên Quang Vương"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Sau chiến thắng Bạch Đằng năm 1288, Trần Quốc Tuấn được vua Trần Nhân Tông phong tước Hưng Đạo Vương để ghi nhận công lao to lớn trong việc bảo vệ đất nước. Ông được tôn vinh là vị tướng tài ba nhất lịch sử Việt Nam.",
+    "difficulty": "hard",
+    "category": "history"
+  },
+  {
+    "id": "history-005",
+    "question": "Tướng nào của quân Nguyên-Mông bị bắt sống trong trận Bạch Đằng 1288?",
+    "answers": [
+      "Ô Mã Nhi",
+      "Thoát Hoan",
+      "Sài Đô",
+      "Toa Đô"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Ô Mã Nhi là tướng chỉ huy hạm đội Nguyên-Mông trong trận Bạch Đằng 1288. Ông bị quân Trần bắt sống sau khi hạm đội của ông bị tiêu diệt hoàn toàn bởi chiến thuật cọc ngầm. Đây là một trong những chiến tích vẻ vang nhất của quân Trần.",
+    "difficulty": "hard",
+    "category": "history"
+  },
+  {
+    "id": "strategy-007",
+    "question": "Trong chiến thuật 'Thanh dã, kiên thành', phần nào quan trọng nhất?",
+    "answers": [
+      "Cả hai đều quan trọng như nhau",
+      "Thanh dã (phá hoại lương thực)",
+      "Kiên thành (giữ thành kiên cố)",
+      "Tùy thuộc vào địa hình"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Chiến thuật 'Thanh dã, kiên thành' của Trần Hưng Đạo kết hợp cả hai yếu tố: phá hoại lương thực địch (thanh dã) và giữ thành kiên cố (kiên thành). Cả hai đều quan trọng - thanh dã làm địch thiếu lương, kiên thành bảo vệ dân và quân ta, tạo thế chủ động trong chiến tranh lâu dài.",
+    "difficulty": "hard",
+    "category": "strategy"
+  },
+  {
+    "id": "strategy-008",
+    "question": "Tại sao quân Trần chọn sông Bạch Đằng làm địa điểm quyết chiến?",
+    "answers": [
+      "Sông hẹp, thủy triều mạnh, địch không quen địa hình",
+      "Gần kinh thành Thăng Long",
+      "Có nhiều quân ta đóng quân",
+      "Địch yếu nhất ở đây"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Sông Bạch Đằng được chọn vì: (1) Sông hẹp, thuyền địch khó cơ động; (2) Thủy triều lên xuống mạnh, phù hợp chiến thuật cọc ngầm; (3) Quân ta quen địa hình, địch không quen; (4) Là tuyến phòng thủ cuối cùng trước khi vào Thăng Long. Đây là sự kết hợp hoàn hảo giữa địa lợi và nhân lực.",
+    "difficulty": "hard",
+    "category": "strategy"
+  },
+  {
+    "id": "culture-005",
+    "question": "Ý nghĩa sâu xa của việc vua Trần Nhân Tông xuất gia sau khi đánh thắng Mông Cổ là gì?",
+    "answers": [
+      "Thể hiện tinh thần vị tha, đặt dân tộc lên trên cá nhân",
+      "Muốn trốn tránh trách nhiệm",
+      "Bị bệnh nặng",
+      "Theo phong tục thời đó"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Vua Trần Nhân Tông xuất gia sau chiến thắng thể hiện triết lý sâu sắc: sau khi hoàn thành sứ mệnh bảo vệ đất nước, Ngài từ bỏ quyền lực để tu hành, đặt lợi ích dân tộc lên trên danh vọng cá nhân. Đây là biểu tượng của đạo đức cao cả và tinh thần vị tha trong văn hóa Việt Nam.",
+    "difficulty": "hard",
+    "category": "culture"
+  }
+]
