@@ -48,7 +48,12 @@ export function GameClient() {
   const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
   const [mapScale, setMapScale] = useState(1);
   const [isAnimatingMap, setIsAnimatingMap] = useState(false);
+  const [isDraggingMap, setIsDraggingMap] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const activePointerIdRef = useRef<number | null>(null);
+  const lastInteractionWasDragRef = useRef(false);
+  const panAnimationFrameRef = useRef<number | null>(null);
+  const pendingPanOffsetRef = useRef<{ x: number; y: number } | null>(null);
   const dragState = useRef({
     isDragging: false,
     startX: 0,
@@ -77,9 +82,56 @@ export function GameClient() {
     };
   }, []);
 
+  const stopDragging = useCallback((wasDrag: boolean) => {
+    dragState.current.isDragging = false;
+    dragState.current.hasMoved = false;
+    activePointerIdRef.current = null;
+    lastInteractionWasDragRef.current = wasDrag;
+    setIsDraggingMap(false);
+  }, []);
+
+  const schedulePanUpdate = useCallback((nextOffset: { x: number; y: number }) => {
+    pendingPanOffsetRef.current = nextOffset;
+    if (panAnimationFrameRef.current !== null) return;
+    panAnimationFrameRef.current = window.requestAnimationFrame(() => {
+      if (pendingPanOffsetRef.current) {
+        setMapOffset(pendingPanOffsetRef.current);
+        pendingPanOffsetRef.current = null;
+      }
+      panAnimationFrameRef.current = null;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!isDraggingMap) return;
+
+    const previousUserSelect = document.body.style.userSelect;
+    const previousWebkitUserSelect = document.body.style.webkitUserSelect;
+    const previousCursor = document.body.style.cursor;
+
+    document.body.style.userSelect = 'none';
+    document.body.style.webkitUserSelect = 'none';
+    document.body.style.cursor = 'grabbing';
+
+    return () => {
+      document.body.style.userSelect = previousUserSelect;
+      document.body.style.webkitUserSelect = previousWebkitUserSelect;
+      document.body.style.cursor = previousCursor;
+    };
+  }, [isDraggingMap]);
+
+  useEffect(() => {
+    return () => {
+      if (panAnimationFrameRef.current !== null) {
+        window.cancelAnimationFrame(panAnimationFrameRef.current);
+      }
+    };
+  }, []);
+
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    // Don't start drag on confirmation modal
-    if ((e.target as HTMLElement).closest('[data-modal]')) return;
+    if (!e.isPrimary || e.button !== 0) return;
+    e.preventDefault();
+
     dragState.current = {
       isDragging: true,
       startX: e.clientX,
@@ -88,11 +140,18 @@ export function GameClient() {
       startOffsetY: mapOffset.y,
       hasMoved: false,
     };
+    activePointerIdRef.current = e.pointerId;
+    lastInteractionWasDragRef.current = false;
+    setIsDraggingMap(true);
     e.currentTarget.setPointerCapture(e.pointerId);
   }, [mapOffset]);
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (activePointerIdRef.current !== e.pointerId) return;
     if (!dragState.current.isDragging) return;
+
+    e.preventDefault();
+
     const dx = e.clientX - dragState.current.startX;
     const dy = e.clientY - dragState.current.startY;
     if (!dragState.current.hasMoved && Math.hypot(dx, dy) > DRAG_THRESHOLD) {
@@ -103,27 +162,33 @@ export function GameClient() {
         x: dragState.current.startOffsetX + dx,
         y: dragState.current.startOffsetY + dy,
       };
-      setMapOffset(clampOffset(raw.x, raw.y, mapScale));
+      schedulePanUpdate(clampOffset(raw.x, raw.y, mapScale));
     }
-  }, [clampOffset, mapScale]);
+  }, [clampOffset, mapScale, schedulePanUpdate]);
+
+  const handlePointerCancel = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (activePointerIdRef.current !== null && e.pointerId !== activePointerIdRef.current) {
+      return;
+    }
+
+    const wasDrag = dragState.current.hasMoved;
+    stopDragging(wasDrag);
+
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+  }, [stopDragging]);
 
   const handlePointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    const wasDrag = dragState.current.hasMoved;
-    dragState.current.isDragging = false;
-    dragState.current.hasMoved = false;
+    if (activePointerIdRef.current !== e.pointerId) return;
 
-    // Only place stronghold on click (not drag)
-    if (!wasDrag && !stronghold) {
-      const mapEl = mapRef.current;
-      if (!mapEl) return;
-      const rect = mapEl.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      if (x >= 0 && x <= 100 && y >= 0 && y <= 100) {
-        setPendingPosition({ x, y });
-      }
+    const wasDrag = dragState.current.hasMoved;
+    stopDragging(wasDrag);
+
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
     }
-  }, [stronghold]);
+  }, [stopDragging]);
 
   const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -150,31 +215,53 @@ export function GameClient() {
     });
   }, [clampOffset]);
 
-  const confirmStronghold = useCallback(() => {
-    if (pendingPosition) {
-      setStronghold(pendingPosition);
-      setPendingPosition(null);
+  const placeStronghold = useCallback((position: StrongholdPosition) => {
+    setStronghold(position);
 
-      // Smooth zoom into the stronghold position
-      const container = containerRef.current;
-      if (container) {
-        const zoomLevel = 2;
-        const rect = container.getBoundingClientRect();
-        const targetX = (pendingPosition.x / 100) * rect.width;
-        const targetY = (pendingPosition.y / 100) * rect.height;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rawOffset = {
-          x: (centerX - targetX) * zoomLevel,
-          y: (centerY - targetY) * zoomLevel,
-        };
-        setIsAnimatingMap(true);
-        setMapScale(zoomLevel);
-        setMapOffset(clampOffset(rawOffset.x, rawOffset.y, zoomLevel));
-        setTimeout(() => setIsAnimatingMap(false), 600);
-      }
+    // Smooth zoom into the stronghold position
+    const container = containerRef.current;
+    if (container) {
+      const zoomLevel = 2;
+      const rect = container.getBoundingClientRect();
+      const targetX = (position.x / 100) * rect.width;
+      const targetY = (position.y / 100) * rect.height;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rawOffset = {
+        x: (centerX - targetX) * zoomLevel,
+        y: (centerY - targetY) * zoomLevel,
+      };
+      setIsAnimatingMap(true);
+      setMapScale(zoomLevel);
+      setMapOffset(clampOffset(rawOffset.x, rawOffset.y, zoomLevel));
+      setTimeout(() => setIsAnimatingMap(false), 600);
     }
-  }, [pendingPosition, clampOffset]);
+  }, [clampOffset]);
+
+  const handleMapDoubleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (stronghold) return;
+    if (lastInteractionWasDragRef.current) {
+      lastInteractionWasDragRef.current = false;
+      return;
+    }
+
+    const mapEl = mapRef.current;
+    if (!mapEl) return;
+
+    const rect = mapEl.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    if (x >= 0 && x <= 100 && y >= 0 && y <= 100) {
+      setPendingPosition({ x, y });
+    }
+  }, [stronghold]);
+
+  const confirmStronghold = useCallback(() => {
+    if (!pendingPosition) return;
+    placeStronghold(pendingPosition);
+    setPendingPosition(null);
+  }, [pendingPosition, placeStronghold]);
 
   const cancelStronghold = useCallback(() => {
     setPendingPosition(null);
@@ -343,11 +430,14 @@ export function GameClient() {
           <main className="flex-1 relative overflow-hidden" role="main" aria-label="Chiến trường">
             <div
               ref={containerRef}
-              className="absolute inset-0"
-              style={{ cursor: dragState.current.isDragging ? 'grabbing' : 'grab', touchAction: 'none' }}
+              className="absolute inset-0 select-none"
+              style={{ cursor: isDraggingMap ? 'grabbing' : 'grab', touchAction: 'none' }}
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerCancel}
+              onLostPointerCapture={handlePointerCancel}
+              onDoubleClick={handleMapDoubleClick}
               onWheel={handleWheel}
             >
               <div
@@ -359,6 +449,7 @@ export function GameClient() {
                   transform: `translate(${mapOffset.x}px, ${mapOffset.y}px) scale(${mapScale})`,
                   transformOrigin: 'center center',
                   transition: isAnimatingMap ? 'transform 0.5s ease-out' : 'none',
+                  willChange: 'transform',
                 }}
               >
                 {/* SVG Map */}
@@ -397,7 +488,7 @@ export function GameClient() {
                         ⚔️ Chiến Trường Bạch Đằng
                       </h2>
                       <p className="text-lg text-gray-300" style={{ fontFamily: "'Playfair Display', serif" }}>
-                        Kéo để di chuyển bản đồ · Nhấn để chọn vị trí đóng quân
+                        Kéo để di chuyển bản đồ · Nhấn đúp để chọn vị trí đóng quân
                       </p>
                     </div>
                   </div>
