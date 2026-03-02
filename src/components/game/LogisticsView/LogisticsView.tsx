@@ -45,14 +45,6 @@ export const LogisticsView = memo(function LogisticsView({
     return counts;
   }, [playerUnits]);
 
-  const addPeasants = useGameStore((s) => s.addPeasants);
-
-  const handleRecruitPeasant = () => {
-    if (subtractResource(ResourceType.GOLD, 50)) {
-      addPeasants(1);
-    }
-  };
-
   const handleTradeRiceForGold = () => {
     if (subtractResource(ResourceType.FOOD, 10)) {
       addResource(ResourceType.GOLD, 1);
@@ -180,25 +172,6 @@ export const LogisticsView = memo(function LogisticsView({
               </button>
             </div>
 
-            {/* Mua lương thực lớn */}
-            <div className="bg-[rgba(20,20,20,0.95)] border-2 border-[#555] rounded-[10px] p-6 text-center hover:border-[#f1c40f] transition-all">
-              <div className="text-4xl mb-3">💰💰 ➜ 🌾🌾</div>
-              <h3 className="text-lg font-bold text-[#f1c40f] mb-2" style={{ fontFamily: "'Oswald', sans-serif" }}>
-                MUA SỈ LƯƠNG THỰC
-              </h3>
-              <p className="text-gray-300 mb-4">20 Vàng ➔ 200 Lúa</p>
-              <button
-                onClick={() => {
-                  if (subtractResource(ResourceType.GOLD, 20)) {
-                    addResource(ResourceType.FOOD, 200);
-                  }
-                }}
-                disabled={resources.gold < 20}
-                className="bg-[#8e44ad] text-white border-none py-2.5 px-4 w-full rounded-[5px] font-bold cursor-pointer hover:bg-[#9b59b6] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                QUY ĐỔI
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -469,21 +442,6 @@ export const LogisticsView = memo(function LogisticsView({
 
       {/* Logistics cards */}
       <div className="flex gap-8 flex-wrap justify-center px-4">
-        {/* Đồn Điền */}
-        <div className="bg-[rgba(20,20,20,0.9)] border-2 border-[#555] p-5 w-[300px] rounded-[10px] text-center hover:border-[#f1c40f] hover:scale-105 transition-all">
-          <h3 className="text-xl font-bold mb-3 text-[#f1c40f]">🌾 ĐỒN ĐIỀN</h3>
-          <p className="text-gray-300 mb-2">
-            Nông dân: <b className="text-white">{resources.peasants ?? 0}</b>
-          </p>
-          <button
-            onClick={handleRecruitPeasant}
-            className="bg-[#27ae60] text-white border-none py-2.5 px-4 w-full rounded-[5px] font-bold cursor-pointer hover:bg-[#2ecc71] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={resources.gold < 50}
-          >
-            Chiêu Mộ Dân (50 Vàng)
-          </button>
-        </div>
-
         {/* Doanh Trại */}
         <div className="bg-[rgba(20,20,20,0.9)] border-2 border-[#555] p-5 w-[300px] rounded-[10px] text-center hover:border-[#f1c40f] hover:scale-105 transition-all">
           <h3 className="text-xl font-bold mb-3 text-[#f1c40f]">🛡️ DOANH TRẠI</h3>
