@@ -152,26 +152,6 @@ export const LogisticsView = memo(function LogisticsView({
               </button>
             </div>
 
-            {/* Đổi Vàng → Lúa */}
-            <div className="bg-[rgba(20,20,20,0.95)] border-2 border-[#555] rounded-[10px] p-6 text-center hover:border-[#f1c40f] transition-all">
-              <div className="text-4xl mb-3">💰 ➜ 🌾</div>
-              <h3 className="text-lg font-bold text-[#f1c40f] mb-2" style={{ fontFamily: "'Oswald', sans-serif" }}>
-                MUA LƯƠNG THỰC
-              </h3>
-              <p className="text-gray-300 mb-4">1 Vàng ➔ 10 Lúa</p>
-              <button
-                onClick={() => {
-                  if (subtractResource(ResourceType.GOLD, 1)) {
-                    addResource(ResourceType.FOOD, 10);
-                  }
-                }}
-                disabled={resources.gold < 1}
-                className="bg-[#2980b9] text-white border-none py-2.5 px-4 w-full rounded-[5px] font-bold cursor-pointer hover:bg-[#3498db] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                QUY ĐỔI
-              </button>
-            </div>
-
           </div>
         </div>
       </div>
